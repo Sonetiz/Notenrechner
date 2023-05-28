@@ -1,36 +1,67 @@
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class GradeBook {
-    public static void main(String[] args) {
-        Map<String, Double> gradeMap = new HashMap<>(); // Map to store grades for each student
+    private Map<String, Map<String, Double>> classMap;
 
-        Scanner scanner = new Scanner(System.in);
+    public GradeBook() {
+        classMap = new HashMap<>();
+    }
 
-        while (true) {
-            System.out.println("Enter student name (or 'quit' to exit): ");
-            String name = scanner.nextLine();
+    public void addClass(String className) {
+        classMap.put(className, new HashMap<>());
+    }
 
-            if (name.equalsIgnoreCase("quit")) {
-                break;
-            }
-
-            System.out.println("Enter student grade: ");
-            double grade = scanner.nextDouble();
-            scanner.nextLine(); // Consume the newline character
-
-            gradeMap.put(name, grade);
+    public void addGrade(String className, String studentName, double grade) {
+        Map<String, Double> gradeMap = classMap.get(className);
+        if (gradeMap != null) {
+            gradeMap.put(studentName, grade);
+        } else {
+            System.out.println("Class not found.");
         }
+    }
 
+    public void displayGradeBook() {
         System.out.println("\nGrade Book:");
 
-        for (Map.Entry<String, Double> entry : gradeMap.entrySet()) {
-            String name = entry.getKey();
-            double grade = entry.getValue();
-            System.out.println(name + ": " + grade);
+        for (Map.Entry<String, Map<String, Double>> classEntry : classMap.entrySet()) {
+            String className = classEntry.getKey();
+            Map<String, Double> gradeMap = classEntry.getValue();
+
+            System.out.println("\nClass: " + className);
+            System.out.println("Student\t\tGrade");
+
+            for (Map.Entry<String, Double> gradeEntry : gradeMap.entrySet()) {
+                String studentName = gradeEntry.getKey();
+                double grade = gradeEntry.getValue();
+                System.out.println(studentName + "\t\t" + grade);
+            }
+
+            double classAverage = calculateClassAverage(gradeMap);
+            System.out.println("Class Average: " + classAverage);
+        }
+    }
+
+    public void displayStudentSummary(String studentName) {
+        System.out.println("\nStudent Summary for: " + studentName);
+
+        for (Map.Entry<String, Map<String, Double>> classEntry : classMap.entrySet()) {
+            String className = classEntry.getKey();
+            Map<String, Double> gradeMap = classEntry.getValue();
+
+            if (gradeMap.containsKey(studentName)) {
+                double studentGrade = gradeMap.get(studentName);
+                System.out.println(className + ": " + studentGrade);
+            }
+        }
+    }
+
+    private double calculateClassAverage(Map<String, Double> gradeMap) {
+        double totalGrades = 0;
+        for (double grade : gradeMap.values()) {
+            totalGrades += grade;
         }
 
-        scanner.close();
+        return totalGrades / gradeMap.size();
     }
 }
