@@ -14,12 +14,14 @@ public class GradeBook {
 
     public void addGrade(String className, String studentName, double grade) {
         Map<String, Double> gradeMap = classMap.get(className);
-        if (gradeMap != null) {
-            gradeMap.put(studentName, grade);
-        } else {
-            System.out.println("Class not found.");
+        if (gradeMap == null) {
+            gradeMap = new HashMap<>();
+            classMap.put(className, gradeMap);
         }
+    
+        gradeMap.put(studentName, grade);
     }
+    
 
     public void displayGradeBook() {
         System.out.println("\nGrade Book:");
@@ -56,7 +58,7 @@ public class GradeBook {
         }
     }
 
-    private double calculateClassAverage(Map<String, Double> gradeMap) {
+    public double calculateClassAverage(Map<String, Double> gradeMap) {
         double totalGrades = 0;
         for (double grade : gradeMap.values()) {
             totalGrades += grade;
@@ -64,4 +66,8 @@ public class GradeBook {
 
         return totalGrades / gradeMap.size();
     }
+    public Map<String, Map<String, Double>> getClassMap() {
+        return classMap;
+    }
+    
 }
