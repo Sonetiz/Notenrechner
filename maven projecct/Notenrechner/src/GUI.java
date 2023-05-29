@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
+import java.util.Map.Entry;
 
 
 
@@ -10,6 +11,7 @@ public class GUI extends JFrame {
     private Notenlist notenListe;
     private JTextField fachTextfeld;
     private JTextField schuelerTextfeld;
+    private JTextField pruefungsfeld;
     private JTextField notenTextfeld;
     private JTextArea NotenRechnerTextArea;
 
@@ -42,12 +44,14 @@ public class GUI extends JFrame {
 
     private JPanel createInputPanel() {
         //Eingabefelder Anordnugn
-        JPanel inputPanel = new JPanel(new GridLayout(2, 3));
+        JPanel inputPanel = new JPanel(new GridLayout( 1, 8));
         //erstellen der einzelnen Text&Eingabefelder
         JLabel fachLabel = new JLabel("Fach:");
         fachTextfeld = new JTextField();
         JLabel schuelerLabel = new JLabel("Schueler:");
         schuelerTextfeld = new JTextField();
+        JLabel PruefungsLabel = new JLabel("Pruefung:");
+        pruefungsfeld = new JTextField();
         JLabel notenLabel = new JLabel("Note:");
         notenTextfeld = new JTextField();
         
@@ -56,8 +60,11 @@ public class GUI extends JFrame {
         inputPanel.add(fachTextfeld);
         inputPanel.add(schuelerLabel);
         inputPanel.add(schuelerTextfeld);
+        inputPanel.add(PruefungsLabel);
+        inputPanel.add(pruefungsfeld);
         inputPanel.add(notenLabel);
         inputPanel.add(notenTextfeld);
+
         
         //Eventlistener fuer den Eintrage button
         JButton addButton = new JButton("Note eintragen");
@@ -78,14 +85,16 @@ public class GUI extends JFrame {
         //Eingegebene Werte in Variablen Speichern
         String FachName = fachTextfeld.getText();
         String SchuelerName = schuelerTextfeld.getText();
+        String Pruefungsname = pruefungsfeld.getText();
         String Notenwert = notenTextfeld.getText();
 
         // wenn Alle Werte eingetragen wurden Daten im Backend in die Notenlisten HashMap eintragen
-        if (!FachName.isEmpty() && !SchuelerName.isEmpty() && !Notenwert.isEmpty()) {
-            double grade = Double.parseDouble(Notenwert);
-            notenListe.addNote(FachName, SchuelerName, grade);
+        if (!FachName.isEmpty() && !SchuelerName.isEmpty() && !Pruefungsname.isEmpty() && !Notenwert.isEmpty()) {
+            double Note = Double.parseDouble(Notenwert);
+            notenListe.addNote(FachName, SchuelerName,Pruefungsname, Note);
             fachTextfeld.setText("");
             schuelerTextfeld.setText("");
+            pruefungsfeld.setText("");
             notenTextfeld.setText("");
 
             //Error Screen wenn Werte fehlen
@@ -100,24 +109,28 @@ public class GUI extends JFrame {
         //Stringbuilder um aus Verschiedenen Datenformen einen String zur Ausgabe zu generieren
         StringBuilder Ausgabetext = new StringBuilder();
         //Itteriert durch alle Faecher in der HashMap und setzt fachEintrag als lokale Variable fuer die Eintraege in der Fach-Hashmap im notenListe Objekt
-        for (Map.Entry<String, Map<String, Double>> fachEintrag : notenListe.getFachMap().entrySet()) {
+        for (Map.Entry<String, Map<String, Map<String, Double>>> fachEintrag : notenListe.getFachMap().entrySet()) {
             //lokale Variable Fachname fuer den Key des Wertepaars in der Hashmap ( immer Fach ist der Key und der Wert ist eine Hashmap mit schuelername als key und note als Wert)
             String Fachname = fachEintrag.getKey();
-            Map<String, Double> NotenMap = fachEintrag.getValue();
-    
+            Map<String, Map<String, Double>> PruefMap = fachEintrag.getValue();
+            //Ausgabetext um um den errechneten Fachnamen und festen
             Ausgabetext.append("\nFach: ").append(Fachname).append("\n");
             Ausgabetext.append("Schueler\t\tNote\n");
-    
-            for (Map.Entry<String, Double> NotenEingabe : NotenMap.entrySet()) {
-                String studentName = NotenEingabe.getKey();
-                double note = NotenEingabe.getValue();
-                Ausgabetext.append(studentName).append("\t\t").append(note).append("\n");
+            //itteriert durch die 2. Dimension Hashmap (key=Schuelername value=Note)und fuegt die Ausgabewerte dem Ausgabestring an
+            for (Map.Entry<String, Map<String, Double>> Pruefungseintrag : PruefMap.entrySet()) {
+                String studentName = Pruefungseintrag.getKey();
+                Map<String,Double> NotenMap = Pruefungseintrag.getValue();
+                for(Map.Entry<String,Double>Noteneintrag : NotenMap.entrySet()){
+
+                    double note = Noteneintrag.getValue();
+                    Ausgabetext.append(studentName).append("\t\t").append(note).append("\n");
+                }
+                // called die backend funktion zum errechnen des Notenschnitts und fuegt den Wert dem String an
+                double fachSchnitt = notenListe.calculateNotenschnitt(NotenMap);
+                Ausgabetext.append("Notenschnitt: ").append(fachSchnitt).append("\n");
             }
-    
-            double fachSchnitt = notenListe.calculateNotenschnitt(NotenMap);
-            Ausgabetext.append("Notenschnitt: ").append(fachSchnitt).append("\n");
         }
-    
+        //Gesamtes String element wird in die GUI gedruckt
         NotenRechnerTextArea.setText(Ausgabetext.toString());
     }
     
