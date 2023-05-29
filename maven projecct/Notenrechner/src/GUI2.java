@@ -73,7 +73,7 @@ public class GUI2 extends JFrame {
     private void testFenster(){
         SwingUtilities.invokeLater(new Runnable(){
             public void run(){
-                TestGUI Testwindow = new TestGUI();
+                TestGUI Testwindow = new TestGUI(notenListe);
                 Testwindow.setVisible(true);
             }
         });
