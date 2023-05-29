@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                GUI Anzeigefenster = new GUI();
+                GUI2 Anzeigefenster = new GUI2();
                 Anzeigefenster.setVisible(true);
             }
         });

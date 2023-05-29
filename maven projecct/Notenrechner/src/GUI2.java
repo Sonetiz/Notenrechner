@@ -7,20 +7,21 @@ import java.util.Map;
 
 
 
-public class GUI extends JFrame {
+public class GUI2 extends JFrame {
     private Notenlist notenListe;
     private JTextField fachTextfeld;
     private JTextField schuelerTextfeld;
     private JTextField pruefungsfeld;
     private JTextField notenTextfeld;
     private JTextArea NotenRechnerTextArea;
+    String currentFach="Fach erstellen";
 
-    public GUI() {
+    public GUI2() {
         //Konstruktor des GUIs
         notenListe = new Notenlist();
 
         //Ueberschrift
-        setTitle("Noten Manager by JMS™");
+        setTitle("Noten Manager by Simon & Maximilian & Jonas");
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -31,54 +32,69 @@ public class GUI extends JFrame {
 
         NotenRechnerTextArea = new JTextArea();
         add(new JScrollPane(NotenRechnerTextArea), BorderLayout.CENTER);
-        //Ausgabebutton Notenuebersicht Fach
-        JButton displayButton = new JButton("Fachzusammenfassung anzeigen");
-        displayButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                zusammenfassungAnzeige();
-            }
-        });
-        add(displayButton, BorderLayout.SOUTH);
+      
+        
     }
 
     private JPanel createInputPanel() {
-        //Eingabefelder Anordnugn
-        JPanel inputPanel = new JPanel(new GridLayout( 1, 8));
-        //erstellen der einzelnen Text&Eingabefelder
-        JLabel fachLabel = new JLabel("Fach:");
-        fachTextfeld = new JTextField();
-        JLabel schuelerLabel = new JLabel("Schueler:");
-        schuelerTextfeld = new JTextField();
-        JLabel PruefungsLabel = new JLabel("Pruefung:");
-        pruefungsfeld = new JTextField();
-        JLabel notenLabel = new JLabel("Note:");
-        notenTextfeld = new JTextField();
-        
-        //felder in JPanel hinzufuegen
-        inputPanel.add(fachLabel);
-        inputPanel.add(fachTextfeld);
-        inputPanel.add(schuelerLabel);
-        inputPanel.add(schuelerTextfeld);
-        inputPanel.add(PruefungsLabel);
-        inputPanel.add(pruefungsfeld);
-        inputPanel.add(notenLabel);
-        inputPanel.add(notenTextfeld);
-
-        
-        //Eventlistener fuer den Eintrage button
-        JButton addButton = new JButton("Note eintragen");
-        addButton.addActionListener(new ActionListener() {
+        //Anordnung Buttons im Header
+        JPanel inputPanel = new JPanel(new GridLayout( 1, 2));
+        //erstellen der einzelnen Buttons
+        JButton fachButton = new JButton(currentFach);
+        fachButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addNote();
+                fachFenster();
             }
         });
-        inputPanel.add(addButton);
+        inputPanel.add(fachButton);
+
+       
+        JButton testButton = new JButton("Leistung Eintragen");
+        testButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                testFenster();
+            }
+        });
+        inputPanel.add(testButton);
 
         return inputPanel;
     }
+    private void fachFenster(){
+        SwingUtilities.invokeLater(new Runnable(){
+            public void run(){
+                FachGUI Fachwindow = new FachGUI();
+                Fachwindow.setVisible(true);
+            }
+        });
 
+    }
+    private void testFenster(){
+        SwingUtilities.invokeLater(new Runnable(){
+            public void run(){
+                TestGUI Testwindow = new TestGUI();
+                Testwindow.setVisible(true);
+            }
+        });
+
+    }
+    public void setCurrentFach(String selected){
+        currentFach = selected;
+        for (Map.Entry<String,Map<String,Map<String,Double>>> facheintrag:notenListe.getFachMap().entrySet()){
+            String Fachname =facheintrag.getKey();
+            if (Fachname==selected){
+                return;
+            }
+            else{
+                notenListe.addFach(selected);
+
+            }
+         }
+    }
+   
+
+    
     private void addNote() {
         //Eintragen der Eingabewerte in die Hashmap
 

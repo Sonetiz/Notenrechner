@@ -3,7 +3,7 @@ import java.util.Map;
 
 public class Notenlist {
     private Map<String, Map<String, Map<String, Double>>> FachMap;
-
+    private String currentFach;
     public Notenlist() {
         FachMap = new HashMap<>();
     }
@@ -29,6 +29,13 @@ public class Notenlist {
     
         SchuelerMap.put(Schuelername, new HashMap<>());
     }
+    public void setCurrentFach(String selected){
+        currentFach=selected;
+    }
+    public String getcurrentFach(){
+        return currentFach;
+    }
+
     
 
     
