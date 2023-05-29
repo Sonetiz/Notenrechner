@@ -3,7 +3,7 @@ import java.util.Map;
 
 public class Notenlist {
     private Map<String, Map<String, Map<String, Double>>> FachMap;
-    private String currentFach;
+    private String currentFach="Fach erstellen";
     public Notenlist() {
         FachMap = new HashMap<>();
     }
@@ -29,15 +29,34 @@ public class Notenlist {
     
         SchuelerMap.put(Schuelername, new HashMap<>());
     }
-    public void setCurrentFach(String selected){
-        currentFach=selected;
-    }
+   
     public String getcurrentFach(){
         return currentFach;
     }
 
     
-
+    public String getBestandFaecher(){
+        StringBuilder AusgabeText= new StringBuilder();
+        for (Map.Entry<String,Map<String,Map<String,Double>>> facheintrag:this.getFachMap().entrySet()){
+            String Bestandsfaecher =facheintrag.getKey();
+            AusgabeText.append(Bestandsfaecher).append("\n");
+            
+        }
+        return AusgabeText.toString();
+    }
+    public void setCurrentFach(String selected){
+        currentFach=selected;
+        for (Map.Entry<String,Map<String,Map<String,Double>>> facheintrag:this.getFachMap().entrySet()){
+            String Fachname =facheintrag.getKey();
+            if (Fachname==selected){
+                return;
+            }
+            
+            
+            
+        }
+        this.addFach(selected);
+    }
     
 
     

@@ -14,7 +14,7 @@ public class GUI2 extends JFrame {
     private JTextField pruefungsfeld;
     private JTextField notenTextfeld;
     private JTextArea NotenRechnerTextArea;
-    String currentFach="Fach erstellen";
+   
 
     public GUI2() {
         //Konstruktor des GUIs
@@ -40,7 +40,7 @@ public class GUI2 extends JFrame {
         //Anordnung Buttons im Header
         JPanel inputPanel = new JPanel(new GridLayout( 1, 2));
         //erstellen der einzelnen Buttons
-        JButton fachButton = new JButton(currentFach);
+        JButton fachButton = new JButton(notenListe.getcurrentFach());
         fachButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,7 +64,7 @@ public class GUI2 extends JFrame {
     private void fachFenster(){
         SwingUtilities.invokeLater(new Runnable(){
             public void run(){
-                FachGUI Fachwindow = new FachGUI();
+                FachGUI Fachwindow = new FachGUI(notenListe);
                 Fachwindow.setVisible(true);
             }
         });
@@ -79,19 +79,7 @@ public class GUI2 extends JFrame {
         });
 
     }
-    public void setCurrentFach(String selected){
-        currentFach = selected;
-        for (Map.Entry<String,Map<String,Map<String,Double>>> facheintrag:notenListe.getFachMap().entrySet()){
-            String Fachname =facheintrag.getKey();
-            if (Fachname==selected){
-                return;
-            }
-            else{
-                notenListe.addFach(selected);
-
-            }
-         }
-    }
+    
    
 
     
