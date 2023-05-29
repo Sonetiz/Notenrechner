@@ -58,6 +58,7 @@ public class FachGUI extends JFrame {
                 }
         fachTextfeld.setText("");
         FaecherTextArea.setText(mynotenList.getBestandFaecher());
+        //GUI2.updateTable();
     }
     
 }

@@ -8,6 +8,7 @@ public class Main {
             public void run() {
                 GUI2 Anzeigefenster = new GUI2();
                 Anzeigefenster.setVisible(true);
+                //Anzeigefenster.updateTable();
             }
         });
     }

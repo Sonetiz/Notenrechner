@@ -7,7 +7,7 @@ import java.util.Map;
 
 
 
-public class GUI extends JFrame {
+public class GUI_old extends JFrame {
     private Notenlist notenListe;
     private JTextField fachTextfeld;
     private JTextField schuelerTextfeld;
@@ -15,7 +15,7 @@ public class GUI extends JFrame {
     private JTextField notenTextfeld;
     private JTextArea NotenRechnerTextArea;
 
-    public GUI() {
+    public GUI_old() {
         //Konstruktor des GUIs
         notenListe = new Notenlist();
 

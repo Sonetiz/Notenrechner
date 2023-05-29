@@ -15,9 +15,11 @@ public class TestGUI extends JFrame {
     private String textfeldSchueler;
     private String textfeldPruef;
     private String textfeldNote;
+    private boolean testbuttonIspressed;
    
     public TestGUI(Notenlist list){
         notenListe = list;
+        testbuttonIspressed=false;
         Liste =new StringBuilder();
         setTitle("Test Eintragen");
         setSize(600,600);
@@ -98,10 +100,12 @@ public class TestGUI extends JFrame {
         Testname= testnTextfeld.getText();
         Liste.append(Testname).append("\n");
         Noten1TextArea.setText(Liste.toString());
+        notenListe.addTest(Testname);
+        testbuttonIspressed=true;
     }}
     private void Dataentry(){
        
-        if(!textfeldSchueler.isEmpty()&&!textfeldNote.isEmpty()&&!textfeldPruef.isEmpty()){
+        if(!textfeldSchueler.isEmpty()&&!textfeldNote.isEmpty()&&!textfeldPruef.isEmpty()&&testbuttonIspressed){
         notenListe.addNote(notenListe.getcurrentFach(),schuelernTextfeld.getText(),Testname,Double.parseDouble(notenTextfeld.getText()));
         Liste.append(schuelernTextfeld.getText()).append("    ").append(notenTextfeld.getText()).append("\n");
         Noten1TextArea.setText(Liste.toString());
@@ -112,6 +116,7 @@ public class TestGUI extends JFrame {
     }
     }
     private void Abschluss(){
+        //Anzeigefenster.updateTable();
         this.setVisible(false);
     }
 }

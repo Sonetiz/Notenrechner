@@ -1,15 +1,20 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Notenlist {
     private Map<String, Map<String, Map<String, Double>>> FachMap;
     private String currentFach="Fach erstellen";
+    private Map<String,String[]> Testliste;
     public Notenlist() {
         FachMap = new HashMap<>();
+        Testliste= new HashMap<>();
     }
 
     public void addFach(String Fachname) {
         FachMap.put(Fachname, new HashMap<>());
+        String[] temp=new String[]{};
+        Testliste.put(Fachname,temp);
     }
     //public void addSchueler(String Schuelername,String Fachname){
     //    Map<String  
@@ -56,6 +61,31 @@ public class Notenlist {
             
         }
         this.addFach(selected);
+    }
+    public void addTest(String Testname){
+        int length;
+        
+        
+         
+       
+        length=Testliste.get(currentFach).length+1;
+        
+        String[] arr=new String[length+1];
+        System.arraycopy(Testliste.get(currentFach),0,arr, 0, length-1);
+        arr[length-1]=Testname;
+        
+        
+
+    }
+    public String[] getTestliste(){
+        return Testliste.get(currentFach);
+        
+       
+    }
+    public int getSchuelerzahl(){
+        Map<String, Map<String, Double>> SchuelerMap = FachMap.get(currentFach);
+        return SchuelerMap.size();
+
     }
     
 

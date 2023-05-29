@@ -26,19 +26,22 @@ public class GUI2 extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        
 
         JPanel inputPanel = createInputPanel();
         add(inputPanel, BorderLayout.NORTH);
+        JPanel tablePanel = createTable();
+        add(tablePanel, BorderLayout.SOUTH);
 
-        NotenRechnerTextArea = new JTextArea();
-        add(new JScrollPane(NotenRechnerTextArea), BorderLayout.CENTER);
+        //NotenRechnerTextArea = new JTextArea();
+        //add(new JScrollPane(NotenRechnerTextArea), BorderLayout.CENTER);
       
         
     }
 
     private JPanel createInputPanel() {
         //Anordnung Buttons im Header
-        JPanel inputPanel = new JPanel(new GridLayout( 1, 2));
+        JPanel inputPanel = new JPanel(new GridLayout( 1, 3));
         //erstellen der einzelnen Buttons
         JButton fachButton = new JButton(notenListe.getcurrentFach());
         fachButton.addActionListener(new ActionListener() {
@@ -58,6 +61,14 @@ public class GUI2 extends JFrame {
             }
         });
         inputPanel.add(testButton);
+        JButton updateButton = new JButton("Tabelle Refreshen");
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateTable();
+            }
+        });
+        inputPanel.add(updateButton);
 
         return inputPanel;
     }
@@ -79,6 +90,31 @@ public class GUI2 extends JFrame {
         });
 
     }
+    private JPanel createTable(){
+        JPanel tablePanel=new JPanel(new GridLayout(1,2));
+        JLabel FachLabel= new JLabel(notenListe.getcurrentFach());
+        add(FachLabel);
+        return tablePanel;
+    }
+   public void updateTable(){
+        removeAll();
+        int rows=notenListe.getSchuelerzahl()+1;
+        int cols=notenListe.getTestliste().length+1;
+        setLayout(new GridLayout(rows,cols));
+
+        JLabel FachLabel= new JLabel(notenListe.getcurrentFach());
+        add(FachLabel);
+        for(int i=0;i<notenListe.getTestliste().length;i++){
+            JLabel pruefLabel= new JLabel(notenListe.getTestliste()[i]);
+            add (pruefLabel);
+        }
+        revalidate();
+        repaint();
+    }
+
+
+
+
     
    
 
