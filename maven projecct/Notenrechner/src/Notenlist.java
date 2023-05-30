@@ -1,11 +1,12 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.ArrayList;
 
 public class Notenlist {
     private Map<String, Map<String, Map<String, Double>>> FachMap;
     private String currentFach="Fach erstellen";
-    private Map<String,String[]> Testliste;
+    private Map<String,ArrayList<String>> Testliste;
     public Notenlist() {
         FachMap = new HashMap<>();
         Testliste= new HashMap<>();
@@ -13,8 +14,8 @@ public class Notenlist {
 
     public void addFach(String Fachname) {
         FachMap.put(Fachname, new HashMap<>());
-        String[] temp=new String[]{};
-        Testliste.put(Fachname,temp);
+        
+        Testliste.put(Fachname,new ArrayList<String>());
     }
     //public void addSchueler(String Schuelername,String Fachname){
     //    Map<String  
@@ -31,10 +32,23 @@ public class Notenlist {
             pruefMap= new HashMap<>();
             SchuelerMap.put(Schuelername, pruefMap);
         }
-    
-        SchuelerMap.put(Schuelername, new HashMap<>());
+        pruefMap.put(Pruefungsname, Note);
+
+        if(!Testliste.get(currentFach).contains(Pruefungsname)){
+            Testliste.get(currentFach).add(Pruefungsname);
+        }
     }
-   
+    public Double getNote(String Fachname,String Schuelername,String Pruefungsname){
+        Map<String,Map<String,Double>> SchuelerMap = FachMap.get(Fachname);
+        Map<String,Double>pruefMap=SchuelerMap.get(Schuelername);
+        if(pruefMap!=null){
+            return pruefMap.get(Schuelername);
+            
+        }
+        else{
+            return 0.0;
+        }
+    }
     public String getcurrentFach(){
         return currentFach;
     }
@@ -62,23 +76,16 @@ public class Notenlist {
         }
         this.addFach(selected);
     }
-    public void addTest(String Testname){
-        int length;
-        
-        
-         
-       
-        length=Testliste.get(currentFach).length+1;
-        
-        String[] arr=new String[length+1];
-        System.arraycopy(Testliste.get(currentFach),0,arr, 0, length-1);
-        arr[length-1]=Testname;
-        
-        
-
-    }
+    //public void addTest(String Testname){
+        //}
     public String[] getTestliste(){
-        return Testliste.get(currentFach);
+        int size=Testliste.get(currentFach).size();
+        String[] temp =new String[size];
+        for(int i=0;i<size;i++){
+            temp[i]=Testliste.get(currentFach).get(i);
+
+        }
+        return temp;
         
        
     }
@@ -102,9 +109,7 @@ public class Notenlist {
     public Map<String, Map<String, Map<String, Double>>> getFachMap() {
         return FachMap;
     }
-    //public Map<String, Map<String, Map<String, Souble>>> getPruefMap(){
-    //    return SchuelerMap;
-    //}
+    
 
 
     //public void displayNotenliste() {

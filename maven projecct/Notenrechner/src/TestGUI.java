@@ -100,13 +100,14 @@ public class TestGUI extends JFrame {
         Testname= testnTextfeld.getText();
         Liste.append(Testname).append("\n");
         Noten1TextArea.setText(Liste.toString());
-        notenListe.addTest(Testname);
+        
         testbuttonIspressed=true;
     }}
     private void Dataentry(){
        
         if(!textfeldSchueler.isEmpty()&&!textfeldNote.isEmpty()&&!textfeldPruef.isEmpty()&&testbuttonIspressed){
-        notenListe.addNote(notenListe.getcurrentFach(),schuelernTextfeld.getText(),Testname,Double.parseDouble(notenTextfeld.getText()));
+            notenListe.addNote(notenListe.getcurrentFach(), schuelernTextfeld.getText(), Testname, Double.parseDouble(textfeldNote));
+        //notenListe.addNote(notenListe.getcurrentFach(),schuelernTextfeld.getText(),Testname,Double.parseDouble(notenTextfeld.getText()));
         Liste.append(schuelernTextfeld.getText()).append("    ").append(notenTextfeld.getText()).append("\n");
         Noten1TextArea.setText(Liste.toString());
         schuelernTextfeld.setText("");
