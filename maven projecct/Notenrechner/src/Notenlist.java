@@ -79,6 +79,9 @@ public class Notenlist {
     //public void addTest(String Testname){
         //}
     public String[] getTestliste(){
+        if(Testliste.get(currentFach)==null){
+            return null;
+        }else{
         int size=Testliste.get(currentFach).size();
         String[] temp =new String[size];
         for(int i=0;i<size;i++){
@@ -86,13 +89,16 @@ public class Notenlist {
 
         }
         return temp;
-        
+    }
        
     }
     public int getSchuelerzahl(){
         Map<String, Map<String, Double>> SchuelerMap = FachMap.get(currentFach);
+        if(SchuelerMap==null){
+        return 0;
+    }else{
         return SchuelerMap.size();
-
+    }
     }
     
 

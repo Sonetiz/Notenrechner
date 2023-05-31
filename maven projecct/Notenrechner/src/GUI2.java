@@ -92,22 +92,20 @@ public class GUI2 extends JFrame {
 
     }
     private JPanel createTable(){
-        JPanel tablePanel=new JPanel(new GridLayout(1,2));
-        JLabel FachLabel= new JLabel(notenListe.getcurrentFach());
-        add(FachLabel);
-        return tablePanel;
-    }
-   public void updateTable(){
-        removeAll();
+        JPanel tablePanel=new JPanel();
+       if(notenListe.getTestliste()!=null){
+
         int rows=notenListe.getSchuelerzahl()+1;
         int cols=notenListe.getTestliste().length+2;
+        
+        if(rows!=0&&cols!=0){
         setLayout(new GridLayout(rows,cols));
 
         JLabel FachLabel= new JLabel(notenListe.getcurrentFach());
         add(FachLabel);
         String[] Testlistelocal=notenListe.getTestliste();
         
-        for(int i=0;i<notenListe.getTestliste().length;i++){
+        for(int i=0;i<Testlistelocal.length;i++){
             JLabel pruefLabel= new JLabel(Testlistelocal[i]);
             add (pruefLabel);
         }
@@ -129,6 +127,20 @@ public class GUI2 extends JFrame {
         }
         revalidate();
         repaint();
+        }else{
+            JOptionPane.showMessageDialog(this, "Keine Pruefung hinterlegt!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+        return tablePanel;
+
+    }
+   public void updateTable(){
+        removeAll();
+        JPanel inputPanel = createInputPanel();
+        add(inputPanel, BorderLayout.NORTH);
+        JPanel tablePanel = createTable();
+        add(tablePanel, BorderLayout.SOUTH);
+        
     }
 
 
