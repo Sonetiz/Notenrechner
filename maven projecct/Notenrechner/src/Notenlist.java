@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.ArrayList;
 
 public class Notenlist {
@@ -17,9 +16,7 @@ public class Notenlist {
         
         Testliste.put(Fachname,new ArrayList<String>());
     }
-    //public void addSchueler(String Schuelername,String Fachname){
-    //    Map<String  
-    //}
+    
 
     public void addNote(String Fachname, String Schuelername, String Pruefungsname, double Note) {
         Map<String, Map<String, Double>> SchuelerMap = FachMap.get(Fachname);
@@ -76,8 +73,7 @@ public class Notenlist {
         }
         this.addFach(selected);
     }
-    //public void addTest(String Testname){
-        //}
+   
     public String[] getTestliste(){
         if(Testliste.get(currentFach)==null){
             return null;

@@ -117,7 +117,7 @@ public class TestGUI extends JFrame {
     }
     }
     private void Abschluss(){
-        //Anzeigefenster.updateTable();
+        
         this.setVisible(false);
     }
 }
