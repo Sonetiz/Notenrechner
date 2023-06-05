@@ -43,7 +43,8 @@ public class TabelleGUI extends JFrame {
        if(mynotenList.getTestliste()!=null){
 
         int rows=mynotenList.getSchuelerzahl()+1;
-        int cols=mynotenList.getTestliste().length+2;
+        int cols=mynotenList.getTestliste().length+7;
+        
         
         if(rows!=0&&cols!=0){
         setLayout(new GridLayout(rows,cols));
